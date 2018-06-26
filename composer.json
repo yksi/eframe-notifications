@@ -15,6 +15,9 @@
             "EFrame\\Notifications\\": ""
         }
     },
+    "suggest": {
+        "eframe/amqp" : "Required to use AMQP Channel"
+    },
     "config": {
         "sort-packages": true
     },
