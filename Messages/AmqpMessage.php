@@ -18,6 +18,20 @@ class AmqpMessage extends Message
     protected $options = [];
 
     /**
+     * AmqpMessage constructor.
+     *
+     * @param string $body
+     * @param null   $properties
+     */
+    public function __construct($body = '', $properties = null)
+    {
+        parent::__construct(
+            $this->prepareBody($body),
+            $properties
+        );
+    }
+
+    /**
      * Sets the message payload
      *
      * @param string $body
@@ -26,6 +40,18 @@ class AmqpMessage extends Message
      */
     public function setBody($body)
     {
+        $this->body = $this->prepareBody($body);
+
+        return $this;
+    }
+
+    /**
+     * @param mixed $body
+     *
+     * @return string
+     */
+    protected function prepareBody($body = '')
+    {
         if ($body instanceof Jsonable) {
             $body = $body->toJson();
         } elseif ($body instanceof Arrayable) {
@@ -33,10 +59,8 @@ class AmqpMessage extends Message
         } elseif (is_array($body)) {
             $body = json_encode($body);
         }
-
-        $this->body = $body;
-
-        return $this;
+        
+        return $body;
     }
 
     /**
